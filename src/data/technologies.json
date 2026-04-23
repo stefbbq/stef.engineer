@@ -1,0 +1,67 @@
+[
+  {
+    "tags": [
+      "TypeScript",
+      "React",
+      "React Native",
+      "Jest",
+      "Cypress",
+      "MongoDB",
+      "PostgreSQL",
+      "GraphQL",
+      "JavaScript",
+      "Next.js",
+      "Tailwind CSS",
+      "Redux",
+      "Unleash",
+      "GitHub Actions",
+      "Docker",
+      "Cloud Firestore",
+      "tRPC",
+      "HTML",
+      "Shell Scripting",
+      "ESLint",
+      "Prettier",
+      "Webpack",
+      "Expo",
+      "XState",
+      "WebGL & three.js",
+      "Cloudflare",
+      "Solid.js",
+      "Hono",
+      "WebSockets",
+      "Sanity"
+    ],
+    "id": 0
+  },
+  {
+    "id": 1,
+    "tags": [
+      "Scrum",
+      "Kanban",
+      "SDLC",
+      "Test Driven Development",
+      "RESTful Design",
+      "RPC API Design",
+      "Systems Architecture",
+      "Microservices",
+      "Micro Frontends",
+      "Software Architecture",
+      "Agile Methodologies",
+      "CI/CD",
+      "SaaS Design"
+    ]
+  },
+  {
+    "content": "- I **build teams**, helping foster creativity and productivity within that team    - **Organized and detail-oriented**, formulating plans and executing on them with an uncompromising eye for detail    - I'm a **problem-solver**, seeing the forest and the trees, and know when it's time to look at one or the other - or both    - I practice **active listening**, ensuring anyone whom I work with never feels like I'm there waiting for my turn to speak    - I **consider my biases** and ensure I'm always **critically thinking** about the problems at hand and what I bring to the table    - I provide **mentorship with my technical leadership**, always working towards building up the people whom are junior to me by **teaching** and **delegating**    - I help **mediate** and provide **conflict resolution** when the moment comes and ensure all parties have had their voices heard",
+    "id": 2
+  },
+  {
+    "id": 3,
+    "tags": [
+      "Unreal Engine",
+      "C++",
+      "Deno"
+    ]
+  }
+]

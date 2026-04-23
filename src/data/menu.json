@@ -1,0 +1,26 @@
+[
+  {
+    "routePath": "/",
+    "id": 1,
+    "icon": "AiOutlineHome",
+    "name": "Home"
+  },
+  {
+    "icon": "FiCodesandbox",
+    "name": "Experience",
+    "routePath": "/experience",
+    "id": 2
+  },
+  {
+    "name": "Technologies",
+    "icon": "FaCode",
+    "routePath": "/technologies",
+    "id": 3
+  },
+  {
+    "routePath": "/contact",
+    "id": 4,
+    "icon": "RiContactsBookLine",
+    "name": "Contact"
+  }
+]
