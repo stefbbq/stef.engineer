@@ -269,7 +269,7 @@ main{transition:opacity .22s ease}
 .theme-toggle svg{transform:translateY(2px)}
 .palette-btn .palette-dot{
   width:14px;height:14px;border-radius:50%;
-  background:var(--accent-grad);
+  background:var(--accent-2);
   box-shadow:0 0 0 2px var(--bg-elevated), 0 0 8px var(--glow);
 }
 
@@ -320,7 +320,7 @@ h1,h2,h3{
   color:var(--text);
   text-wrap:balance;
 }
-h1{font-size:clamp(3.75rem,8.5vw,6.25rem);letter-spacing:0.02em;line-height:0.95;margin-bottom:0.3rem}
+h1{font-size:clamp(3.75rem,8.5vw,6.25rem);letter-spacing:0.02em;line-height:0.95;margin-bottom:0}
 h2{font-size:2.35rem;letter-spacing:0.06em;margin-bottom:1.75rem}
 h3{font-size:1.4rem;letter-spacing:0.05em;margin-bottom:0.5rem}
 /* text-wrap:pretty collapses single-word widows on the last line where supported */
