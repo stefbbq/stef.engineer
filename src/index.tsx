@@ -28,8 +28,27 @@ const appPromise = createERSApp(logger, {
   serverModules: serverModules as any,
 })
 
+/**
+ * fresh DO name per worker-isolate start, so every `wrangler dev` reload
+ * (and every production deploy) picks a brand new Durable Object instance.
+ * the framework default routes all WS upgrades to `idFromName('default')`,
+ * which keeps serving stale route-HTML out of its in-memory ContentCache
+ * after the script bundle rebuilds. generating a fresh name on module init
+ * orphans the old DO and forces a clean one.
+ */
+const doInstanceName = `ers-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+
 export default {
   async fetch(request: Request, env: any, ctx: any): Promise<Response> {
+    // intercept WebSocket upgrades ourselves so we can pick a fresh DO ID
+    // per-isolate rather than the framework's hardcoded 'default' name.
+    const upgrade = request.headers.get('Upgrade')
+    if (upgrade === 'websocket' && env?.WEBSOCKET_DO) {
+      const doId = env.WEBSOCKET_DO.idFromName(doInstanceName)
+      const stub = env.WEBSOCKET_DO.get(doId)
+      return stub.fetch(request)
+    }
+
     const app = await appPromise
     return app.handler.fetch(request, env, ctx)
   },

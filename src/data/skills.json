@@ -4,12 +4,12 @@
     "title": "Engineering Leadership",
     "icon": "FaSmile",
     "id": 0,
-    "description": "Building and scaling engineering teams that ship — setting the bar, growing the people, and creating the conditions for sustained, high-quality output.",
+    "description": "Years spent learning how to set the bar, grow the people around me and create the conditions where sustained, high-quality output is the norm rather than the exception.",
     "color": "ecb93d"
   },
   {
     "id": 1,
-    "description": "Designing organizations that match the work — clear ownership, processes that serve outcomes, and cross-functional alignment between engineering, product and the business.",
+    "description": "A running practice of shaping organizations around the work: clear ownership, processes that serve outcomes, and alignment between engineering, product and the business.",
     "color": "FF6080",
     "icon": "SiElasticstack",
     "backgroundColor": "FFF4F4",
@@ -18,7 +18,7 @@
   {
     "color": "55DD54",
     "id": 2,
-    "description": "Architecting durable, performance-first systems with a *code-is-a-liability* mindset — balancing reliability, developer experience and cost so platforms keep paying off years later.",
+    "description": "Architecting durable, performance-first systems with a *code-is-a-liability* mindset I've spent a long time refining, balancing reliability, developer experience and cost so platforms keep paying off years later.",
     "icon": "FaNetworkWired",
     "title": "Systems & Architecture",
     "backgroundColor": "F5FDF4"
@@ -27,7 +27,7 @@
     "backgroundColor": "FCF4FF",
     "title": "R&D & Innovation",
     "icon": "FaCode",
-    "description": "Turning open-ended problems into validated bets — rapid prototyping, tight feedback loops, and scaling proven ideas from experiment to production platform.",
+    "description": "Turning open-ended problems into validated bets has become the throughline of my work: rapid prototyping, tight feedback loops, and scaling proven ideas from experiment to production platform.",
     "id": 4,
     "color": "D566FF"
   }

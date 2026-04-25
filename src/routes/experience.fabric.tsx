@@ -30,7 +30,7 @@ export const GET = async (_context: RouteContext) => {
     </div>`
   }).join('')
 
-  const intro = `<p class="section-text" style="margin-bottom:2rem">A selection of the work and the teams behind it — from agency creative technology to enterprise platform engineering and, most recently, building product from the ground up.</p>`
+  const intro = `<p class="section-text" style="margin-bottom:2rem">A selection of the work and the teams behind it: from agency creative technology to enterprise platform engineering and, most recently, building product from the ground up.</p>`
 
   return {
     html: `<div class="container"><section><h2>Selected Engagements</h2>${intro}${cards}</section></div>`,

@@ -1,9 +1,14 @@
 {
   "$schema": "https://developers.cloudflare.com/workers/wrangler/configuration/schema.json",
+  "account_id": "90bea7ecc9f045d67374e0b2efce6ab6",
   "name": "stef-online",
   "main": "dist/index.js",
   "compatibility_date": "2026-04-22",
   "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    { "pattern": "stef.engineer", "custom_domain": true },
+    { "pattern": "www.stef.engineer", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./public",
     "binding": "ASSETS"

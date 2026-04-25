@@ -3,7 +3,7 @@ import { getData } from '../data/kv'
 
 type RouteContext = { request: Request; params: Record<string, string>; query: URLSearchParams; env: unknown }
 
-const SECTION_TITLES = ['Core Stack', 'How We Build', 'Currently Exploring'] as const
+const SECTION_TITLES = ['Core Technology', 'How I Build', 'Currently Exploring'] as const
 
 const loadTechnologies = async () => getData<TechnologyGroup[]>(null, 'technologies')
 
@@ -16,7 +16,7 @@ export const GET = async (_context: RouteContext) => {
 
   const intro = `<section>
     <h2>Capabilities</h2>
-    <p class="section-text">The tools and practices behind the work — not a checklist, but a snapshot of what my teams and I reach for when designing systems, shipping product and validating new ideas.</p>
+    <p class="section-text">The short version of what I bring to an engineering problem. Below: the tools I reach for, the practices that shape how I ship, and the edges I'm currently pushing against &mdash; grouped so you can see what I lean on day-to-day, how I work, and what's pulling my attention next.</p>
   </section>`
 
   const sectionIndices = [0, 1, 3]

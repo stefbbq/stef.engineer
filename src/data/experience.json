@@ -16,7 +16,7 @@
     "dateRange": "September 2009 to December 2010"
   },
   {
-    "description": "Founded and ran a small studio building digital experiences for large brands and SMBs alike. As principal and creative technologist, I led design and engineering on campaigns for **HP**, **Samsung**, **Canada Goose**, **Spin Master**, **Telus** and many others — owning everything from pitch and scoping through delivery.",
+    "description": "Founded and ran a small studio building digital experiences for large brands and SMBs alike. As principal and creative technologist, I led design and engineering on campaigns for **HP**, **Samsung**, **Canada Goose**, **Spin Master**, **Telus** and many others, owning everything from pitch and scoping through delivery.",
     "id": 3,
     "role": "Principal & Creative Technologist",
     "organization": "Steam Walker Inc.",
@@ -27,20 +27,20 @@
     "dateRange": "January 2016 to September 2016",
     "bg": "FFF4F4",
     "id": 4,
-    "description": "Led the front-end engineering team across the agency's full surface area — from one-off campaign builds through complex SPA experiences. Partnered closely with strategy and creative to translate ambitious concepts into shippable work, ran prototyping initiatives that fed both new business and active accounts, and held regular workshops to lift the team's technical capability. Clients included **Boston Pizza**, **Aldo** and **Call It Spring**.",
+    "description": "Led the front-end engineering team across the agency's full surface area, from one-off campaign builds through complex SPA experiences. Partnered closely with strategy and creative to translate ambitious concepts into shippable work, ran prototyping initiatives that fed both new business and active accounts, and held regular workshops to lift the team's technical capability. Clients included **Boston Pizza**, **Aldo** and **Call It Spring**.",
     "role": "Front-end Technical Lead",
     "organization": "ICF Olson"
   },
   {
     "organization": "Isobar",
     "role": "Director of Technology",
-    "description": "Led a multidisciplinary technology group delivering digital experiences for global brands including **Coke**, **Parmalat**, **Nespresso** and **Subway**. Owned architectural decisions across the portfolio, formalized the agency's DevOps and QA practice, and brought engineering closer to creative and strategy so that technical thinking shaped concepts from day one rather than getting bolted on at the end. Spent meaningful time client-facing — leading pitches and translating client ambition into delivery plans the team could actually execute against.",
+    "description": "Led a multidisciplinary technology group delivering digital experiences for global brands including **Coke**, **Parmalat**, **Nespresso** and **Subway**. Owned architectural decisions across the portfolio, formalized the agency's DevOps and QA practice, and brought engineering closer to creative and strategy so that technical thinking shaped concepts from day one rather than getting bolted on at the end. Spent meaningful time client-facing, leading pitches and translating client ambition into delivery plans the team could actually execute against.",
     "id": 5,
     "bg": "FCF4FF",
     "dateRange": "January 2018 to March 2020"
   },
   {
-    "description": "Senior architecture role across the digital arm of TELUS, working with multiple product teams each carrying their own stack, constraints and business priorities. Set the systems strategy and aligned engineers and stakeholders behind it; designed and often implemented end-to-end solutions across TypeScript, React/React Native, Node and GCP; and stood up the CI/CD and platform foundations that made the rest of the work possible. Owned product health as a first-class concern — performance, security and resilience — and acted as a steady technical voice across a complex, multi-team environment.",
+    "description": "Senior architecture role across the digital arm of TELUS, working with multiple product teams each carrying their own stack, constraints and business priorities. Set the systems strategy and aligned engineers and stakeholders behind it; designed and often implemented end-to-end solutions across TypeScript, React/React Native, Node and GCP; and stood up the CI/CD and platform foundations that made the rest of the work possible. Owned product health as a first-class concern (performance, security and resilience) and acted as a steady technical voice across a complex, multi-team environment.",
     "id": 7,
     "role": "Staff Engineer",
     "skills": [
@@ -70,7 +70,7 @@
   {
     "role": "Principal Software Engineer",
     "id": 8,
-    "description": "Built the meta-framework and core platform behind [AutoGenius](https://www.autogenius.io) — a distributed, micro-service architecture on Cloudflare Workers and Durable Objects, with a dynamically rendered micro-frontend UI on Solid.js + Hono and Sanity as the headless CMS. Real-time comms over WebSockets tie it all together. The result is genuinely fast, and laid the foundation for the company's next phase of growth.",
+    "description": "Built the meta-framework and core platform behind [AutoGenius](https://www.autogenius.io): a distributed, micro-service architecture on Cloudflare Workers and Durable Objects, with a dynamically rendered micro-frontend UI on Solid.js + Hono and Sanity as the headless CMS. Real-time comms over WebSockets tie it all together. The result is genuinely fast, and laid the foundation for the company's next phase of growth.",
     "organization": "Touchless / Auto Genius",
     "skills": [
       "Cloudflare Workers & Durable Objects",
@@ -89,14 +89,14 @@
   {
     "role": "Chief Software Engineer",
     "id": 9,
-    "description": "Lead engineering across the company — culture, architecture and the R&D pipeline that keeps the product moving. Built an organization that designs scalable systems with a *code-is-a-liability* mindset, strong data schemas and performance-first thinking that respects users' time. Guide teams through hard problems with rapid iteration and tight validation loops, and have taken once-niche solutions and **scaled them to hundreds of sites**, unlocking new markets and revenue lines along the way.",
+    "description": "Lead engineering across the company: culture, architecture and the R&D pipeline that keeps the product moving. Built an organization that designs scalable systems with a *code-is-a-liability* mindset, strong data schemas and performance-first thinking that respects users' time. Guide teams through hard problems with rapid iteration and tight validation loops, and have taken once-niche solutions and **scaled them to hundreds of sites**, unlocking new markets and revenue lines along the way.",
     "organization": "Touchless / Auto Genius",
     "bg": "FFF4F4",
     "dateRange": "Since October 2024"
   },
   {
     "id": "6",
-    "description": "Independent technology leadership for organizations including **Scotiabank**, **Information Builders** and **CommonGenius**. Stood up engineering teams, set technical direction, formalized agile practice, and stepped in as principal engineer where the work needed it — translating strategy into systems and shipping production code alongside the people I was building up.",
+    "description": "Independent technology leadership for organizations including **Scotiabank**, **Information Builders** and **CommonGenius**. Stood up engineering teams, set technical direction, formalized agile practice, and stepped in as principal engineer where the work needed it, translating strategy into systems and shipping production code alongside the people I was building up.",
     "role": "Freelance Engineer",
     "skills": [
       "Agile Software Development",

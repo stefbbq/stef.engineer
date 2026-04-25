@@ -1,6 +1,6 @@
 import { clientExtension as infiniteScroll } from '@touchlesscode/core-extensions/infinite-scroll'
 import { clientExtension as linkPrefetch } from '@touchlesscode/core-extensions/link-prefetch'
-import { installLightbox, dismissLightbox } from './lightbox'
+import { installLightbox, dismissLightbox, onArtPageEntered } from './lightbox'
 import { installArtGrid, ensureArtGrid } from './artGrid'
 
 declare const window: any
@@ -20,7 +20,7 @@ const LINK_PREFETCH_CONFIG = {
   maxCacheSize: 16,
 }
 
-let infiniteScrollRegistered = false
+const INFINITE_SCROLL_NAME = 'infinite-scroll'
 
 const normalizePath = (path: string): string =>
   path === '/' ? '/' : path.replace(/\/$/, '')
@@ -36,11 +36,14 @@ const updateActiveNav = () => {
 
 /**
  * the official infinite-scroll extension only inspects the DOM at register
- * time. on a SPA-routed site the [data-infinite-scroll] container only
- * appears after navigating to /art, so the first registration is a no-op.
+ * time and captures references to the container + its sentinels in onInit.
+ * on a SPA-routed site the [data-infinite-scroll] container is replaced
+ * each time we navigate back into /art, so the prior registration is now
+ * observing detached nodes.
  *
- * we re-register whenever a container shows up. the extension de-duplicates
- * internally by name so this is safe to call repeatedly.
+ * tear down any prior registration before re-registering against the new
+ * container — register() is a no-op when the extension name already exists,
+ * so without unregister() onInit never re-runs.
  */
 const ensureInfiniteScroll = () => {
   const ers = window?.ers
@@ -49,22 +52,41 @@ const ensureInfiniteScroll = () => {
   if (!container) return
   if (container.getAttribute('data-infinite-scroll-attached') === '1') return
 
+  if (ers.extensions.get && ers.extensions.get(INFINITE_SCROLL_NAME)) {
+    try { ers.extensions.unregister(INFINITE_SCROLL_NAME) } catch (_unregisterError) {}
+  }
+
   try {
     ers.extensions.register(infiniteScroll, INFINITE_SCROLL_CONFIG)
     container.setAttribute('data-infinite-scroll-attached', '1')
-    infiniteScrollRegistered = true
   } catch (error) {
-    console.warn('infinite-scroll re-register failed', error)
+    console.warn('infinite-scroll register failed', error)
   }
 }
 
+let lastPath = normalizePath(window.location.pathname)
+
 const onNavigation = () => {
+  const nextPath = normalizePath(window.location.pathname)
+
+  // query-only updates (e.g. ?id=... for the art deep-linked lightbox) should
+  // not dismiss the lightbox or restart grid extensions. update the active-nav
+  // indicator and bail.
+  if (nextPath === lastPath) {
+    updateActiveNav()
+    return
+  }
+
+  lastPath = nextPath
   dismissLightbox()
   updateActiveNav()
   // give the new content a tick to mount before looking for the container
   setTimeout(() => {
     ensureInfiniteScroll()
     ensureArtGrid()
+    // if we just landed on /art (via SPA nav), re-read manifest + bootstrap
+    // any ?id=... present in the URL
+    onArtPageEntered()
   }, 30)
 }
 
@@ -84,6 +106,29 @@ const installNavigationHooks = () => {
   window.addEventListener('popstate', onNavigation)
 }
 
+/**
+ * drive the `--scroll-y` custom property on <html> from the window scroll
+ * position so the fixed dot-grid pseudo-element can shift its
+ * background-position in css and appear to travel with the page.
+ *
+ * the radial halo layer stays truly fixed; only the grid tracks scroll.
+ */
+const installScrollTracking = () => {
+  const root = document.documentElement
+  let ticking = false
+  const update = () => {
+    root.style.setProperty('--scroll-y', `${window.scrollY}px`)
+    ticking = false
+  }
+  const onScroll = () => {
+    if (ticking) return
+    ticking = true
+    window.requestAnimationFrame(update)
+  }
+  update()
+  window.addEventListener('scroll', onScroll, { passive: true })
+}
+
 const register = () => {
   const ers = window?.ers
   if (!ers || !ers.extensions) {
@@ -100,6 +145,7 @@ const register = () => {
   }
 
   installNavigationHooks()
+  installScrollTracking()
   installLightbox()
   installArtGrid()
   ensureArtGrid()

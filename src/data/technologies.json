@@ -1,55 +1,64 @@
 [
   {
     "tags": [
+      "RAG",
+      "MCP",
+      "Agents",
+      "Vector DBs",
       "TypeScript",
+      "JavaScript",
+      "HTML",
+      "WASM",
       "React",
       "React Native",
-      "Jest",
-      "Cypress",
+      "Next.js",
+      "Solid.js",
+      "Redux",
+      "XState",
+      "Hono",
+      "tRPC",
+      "Expo",
+      "WebGL & three.js",
+      "Tailwind CSS",
       "MongoDB",
       "PostgreSQL",
       "GraphQL",
-      "JavaScript",
-      "Next.js",
-      "Tailwind CSS",
-      "Redux",
-      "Unleash",
+      "Cloud Firestore",
+      "Sanity",
+      "Cloudflare",
+      "WebSockets",
+      "Jest",
+      "Cypress",
       "GitHub Actions",
       "Docker",
-      "Cloud Firestore",
-      "tRPC",
-      "HTML",
       "Shell Scripting",
       "ESLint",
       "Prettier",
       "Webpack",
-      "Expo",
-      "XState",
-      "WebGL & three.js",
-      "Cloudflare",
-      "Solid.js",
-      "Hono",
-      "WebSockets",
-      "Sanity"
+      "OpenClaw"
     ],
     "id": 0
   },
   {
     "id": 1,
     "tags": [
-      "Scrum",
-      "Kanban",
-      "SDLC",
-      "Test Driven Development",
-      "RESTful Design",
-      "RPC API Design",
       "Systems Architecture",
+      "Software Architecture",
+      "Domain-Driven Design",
       "Microservices",
       "Micro Frontends",
-      "Software Architecture",
-      "Agile Methodologies",
+      "SaaS Design",
+      "RESTful Design",
+      "RPC API Design",
+      "Architecture Diagrams",
+      "ADRs",
+      "Figma",
+      "Test Driven Development",
       "CI/CD",
-      "SaaS Design"
+      "SDLC",
+      "Agile Methodologies",
+      "Scrum",
+      "Kanban"
     ]
   },
   {
@@ -61,7 +70,8 @@
     "tags": [
       "Unreal Engine",
       "C++",
-      "Deno"
+      "Deno",
+      "CRDT"
     ]
   }
 ]
