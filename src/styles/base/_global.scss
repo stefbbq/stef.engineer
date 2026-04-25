@@ -1,0 +1,75 @@
+@use '../abstracts' as *;
+
+// body-scoped layout + background layers. kept separate from _typography so
+// the cascade story reads: "fonts/colors first, then backgrounds & layout".
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  overflow-x: hidden;
+  transition: background $dur-theme ease, color $dur-theme ease;
+}
+
+// dot grid — fixed to the viewport but shifted by --scroll-y so it scrolls
+// with the page; JS updates --scroll-y on scroll. the radial halos below it
+// stay truly fixed and do not track scroll position.
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: $z-floor;
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: 0 calc(-1 * var(--scroll-y, 0px));
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
+// svg fractal-noise tile sits on top of the radial halos to dither the
+// gradient and reduce banding; alpha is intentionally low so the texture
+// reads as subtle grain in both light and dark themes.
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: $z-halo;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.1 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>"),
+    radial-gradient(60% 40% at 20% 0%, var(--halo-1), transparent 70%),
+    radial-gradient(50% 35% at 90% 10%, var(--halo-2), transparent 70%);
+  background-size: 240px 240px, 100% 100%, 100% 100%;
+  background-repeat: repeat, no-repeat, no-repeat;
+  transition: background 0.4s ease;
+}
+
+// darker grain reads better on light bg; white grain is invisible on light
+[data-theme='light'] body::after {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.1 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>"),
+    radial-gradient(60% 40% at 20% 0%, var(--halo-1), transparent 70%),
+    radial-gradient(50% 35% at 90% 10%, var(--halo-2), transparent 70%);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.grad-text {
+  @include gradient-text;
+}
+
+// fade the main content while SPA navigation is in-flight
+main { transition: opacity $dur-med $ease-in-out; }
+[data-navigating='true'] main { opacity: 0.45; }
+
+section {
+  margin-bottom: $space-18;
+
+  &:last-child { margin-bottom: $space-5; }
+}

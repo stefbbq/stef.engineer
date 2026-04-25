@@ -1,0 +1,21 @@
+// midnight is the default palette — emitted on :root so the site renders
+// correctly even before the boot script has set [data-palette].
+:root,
+[data-palette='midnight'] {
+  --accent: #00e5ff;
+  --accent-2: #a855f7;
+  --accent-grad: linear-gradient(135deg, #00e5ff 0%, #a855f7 100%);
+  --accent-grad-soft: linear-gradient(135deg, rgba(0, 229, 255, 0.18), rgba(168, 85, 247, 0.18));
+  --glow: rgba(0, 229, 255, 0.18);
+  --halo-1: rgba(0, 229, 255, 0.14);
+  --halo-2: rgba(168, 85, 247, 0.11);
+}
+[data-theme='light'][data-palette='midnight'] {
+  --accent: #0891b2;
+  --accent-2: #7c3aed;
+  --accent-grad: linear-gradient(135deg, #0891b2 0%, #7c3aed 100%);
+  --accent-grad-soft: linear-gradient(135deg, rgba(8, 145, 178, 0.12), rgba(124, 58, 237, 0.10));
+  --glow: rgba(8, 145, 178, 0.16);
+  --halo-1: rgba(8, 145, 178, 0.16);
+  --halo-2: rgba(124, 58, 237, 0.13);
+}

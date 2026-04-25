@@ -1,0 +1,21 @@
+[data-theme='light'] {
+  --bg: #fafafa;
+  --bg-elevated: #ffffff;
+  --text: #0d0d10;
+  --text-muted: #5a5a63;
+  --text-subtle: #9a9aa3;
+  --surface: rgba(0, 0, 0, 0.025);
+  --surface-strong: rgba(0, 0, 0, 0.05);
+  --border: rgba(0, 0, 0, 0.07);
+  --border-strong: rgba(0, 0, 0, 0.14);
+  --dot-color: rgba(0, 0, 0, 0.095);
+  --nav-bg: rgba(250, 250, 250, 0.78);
+  --lightbox-bg: rgba(250, 250, 250, 0.96);
+  --lightbox-btn-bg: rgba(0, 0, 0, 0.06);
+  --lightbox-btn-bg-hover: rgba(0, 0, 0, 0.12);
+  --lightbox-btn-border: rgba(0, 0, 0, 0.14);
+  --lightbox-btn-color: #0d0d10;
+  --lightbox-image-bg: #ffffff;
+  --lightbox-image-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+  color-scheme: light;
+}

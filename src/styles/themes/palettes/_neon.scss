@@ -1,0 +1,18 @@
+[data-palette='neon'] {
+  --accent: #ff2bb1;
+  --accent-2: #3a7bff;
+  --accent-grad: linear-gradient(135deg, #ff2bb1 0%, #3a7bff 100%);
+  --accent-grad-soft: linear-gradient(135deg, rgba(255, 43, 177, 0.18), rgba(58, 123, 255, 0.18));
+  --glow: rgba(255, 43, 177, 0.22);
+  --halo-1: rgba(255, 43, 177, 0.14);
+  --halo-2: rgba(58, 123, 255, 0.14);
+}
+[data-theme='light'][data-palette='neon'] {
+  --accent: #d4179a;
+  --accent-2: #2a5fdf;
+  --accent-grad: linear-gradient(135deg, #d4179a 0%, #2a5fdf 100%);
+  --accent-grad-soft: linear-gradient(135deg, rgba(212, 23, 154, 0.12), rgba(42, 95, 223, 0.12));
+  --glow: rgba(212, 23, 154, 0.16);
+  --halo-1: rgba(212, 23, 154, 0.16);
+  --halo-2: rgba(42, 95, 223, 0.16);
+}

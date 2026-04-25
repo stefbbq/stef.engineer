@@ -3,7 +3,10 @@ import { renderClientToString, raw } from "@touchlesscode/core/edge";
 import ersScript from "@touchlesscode/core/client/browser?raw";
 import extensionsScript from "../render/_extensionsBundle";
 
-import { cssVars, globalStyles, themeScript, getThemeFromCookie, getPaletteFromCookie } from "../render/styles";
+import compiledStyles from "../styles/index.scss?inline";
+import { themeScript } from "../render/theme/themeScript";
+import { getThemeFromCookie } from "../render/theme/getThemeFromCookie";
+import { getPaletteFromCookie } from "../render/theme/getPaletteFromCookie";
 import { icons } from "../render/icons";
 
 const PAGE_TITLES: Record<string, string> = {
@@ -204,33 +207,27 @@ export const GET = async (content: Response, context: RouteContext): Promise<str
   const request = context.request as Request;
   const url = new URL(request.url);
   const path = url.pathname === "/" ? "/" : url.pathname.replace(/\/$/, "");
-  const wsProtocol = url.protocol === "https:" ? "wss:" : "ws:";
-  const socketBaseURL = `${wsProtocol}//${url.host}`;
 
   const cookie = request.headers.get("cookie");
   const theme = getThemeFromCookie(cookie);
   const palette = getPaletteFromCookie(cookie);
 
   const title = PAGE_TITLES[path] ?? PAGE_TITLES["/"];
-  // miniflare keeps WebSockets (and the DO on the other end) alive across
-  // `wrangler dev` script reloads, so SPA nav over WS keeps hitting a DO that
-  // holds stale rendered HTML in its in-memory ContentCache. bypass the DO
-  // entirely in local dev by using fetch-only; prod keeps hybrid + WS.
-  const isLocalDev = url.hostname === "localhost" || url.hostname === "127.0.0.1" || url.hostname.endsWith(".local");
-  const ersBootstrapHtml = isLocalDev
-    ? await renderClientToString(ersScript, {
-        transport: {
-          type: "fetch",
-          fetch: { baseURL: "" },
-        },
-      } as any)
-    : await renderClientToString(ersScript, {
-        transport: {
-          type: "hybrid",
-          fetch: { baseURL: "" },
-          socket: { baseURL: socketBaseURL },
-        },
-      } as any);
+  // force fetch-only transport for every request. the WS path goes through
+  // the framework's long-lived DurableObject ContentCache, which holds rendered
+  // HTML across deploys, so SPA-nav over WS re-injects stale `<style>` blocks
+  // (and other cached head fragments) from old builds. fetch-only re-renders
+  // each nav through the worker's normal handler with no cache surface.
+  // (the previous `isLocalDev` check was wrong under `wrangler dev --remote`
+  // because `request.url` resolves to the production hostname there, so the
+  // hybrid+socket branch took over and the client opened a WS to the deployed
+  // production worker — pulling its old cached HTML on every nav.)
+  const ersBootstrapHtml = await renderClientToString(ersScript, {
+    transport: {
+      type: "fetch",
+      fetch: { baseURL: "" },
+    },
+  } as any);
 
   const tree = (
     <html lang="en" data-theme={theme} data-palette={palette}>
@@ -246,7 +243,7 @@ export const GET = async (content: Response, context: RouteContext): Promise<str
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <style>{raw(cssVars + globalStyles)}</style>
+        <style>{raw(compiledStyles)}</style>
         <script>{raw(themeScript)}</script>
       </head>
       <body>

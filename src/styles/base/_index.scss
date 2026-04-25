@@ -1,0 +1,6 @@
+// base barrel — element/global selectors that have no class prefix. order
+// reset → typography → global (body + halos) → anchors keeps cascade sane.
+@forward 'reset';
+@forward 'typography';
+@forward 'global';
+@forward 'anchors';

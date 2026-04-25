@@ -1,0 +1,7 @@
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.15s, opacity 0.15s;
+
+  &:hover { opacity: 0.85; }
+}

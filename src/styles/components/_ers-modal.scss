@@ -1,0 +1,80 @@
+@use '../abstracts' as *;
+
+#ers-modal {
+  border: 1px solid var(--border-strong);
+  border-radius: $radius-2xl;
+  background: var(--bg-elevated);
+  color: var(--text);
+  padding: 0;
+  width: min(640px, 92vw);
+  max-height: 85vh;
+  overflow: auto;
+  // explicit centering: inset:0 + margin:auto works cross-browser when the
+  // dialog has a bounded width AND height
+  inset: 0;
+  margin: auto;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+.ers-modal-inner {
+  padding: $space-9 2.25rem 2.25rem;
+  position: relative;
+
+  h2 {
+    margin-bottom: $space-6;
+    font-size: 2rem;
+  }
+
+  p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: $space-5;
+    font-size: 1rem;
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  code {
+    background: var(--surface-strong);
+    padding: 0.1rem 0.4rem;
+    border-radius: $radius-xs;
+    font-size: 0.85em;
+    font-family: $font-mono;
+    color: var(--text);
+  }
+}
+
+.ers-modal-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.95rem;
+  @include reset-button;
+  color: var(--text-muted);
+  padding: 0.4rem;
+  border-radius: $radius-md;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color $dur-fast, background $dur-fast;
+
+  &:hover {
+    color: var(--text);
+    background: var(--surface-strong);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}

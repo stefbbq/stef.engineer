@@ -1,0 +1,9 @@
+@use '../abstracts' as *;
+
+.hero {
+  padding: $space-16 0 $space-14;
+
+  @include below-mobile {
+    padding: $space-12 0 $space-9;
+  }
+}

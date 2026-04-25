@@ -1,0 +1,7 @@
+// palettes barrel — forwards every palette file so adding a new palette is a
+// single @forward line plus a new _<name>.scss file.
+@forward 'midnight';
+@forward 'neon';
+@forward 'sunset';
+@forward 'forest';
+@forward 'vapor';

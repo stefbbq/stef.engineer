@@ -1,0 +1,24 @@
+// default theme — dark. exposed both on :root and [data-theme="dark"] so the
+// boot script can set an explicit attribute or omit it entirely.
+:root,
+[data-theme='dark'] {
+  --bg: #0a0a0c;
+  --bg-elevated: #111114;
+  --text: #ededee;
+  --text-muted: #8a8a93;
+  --text-subtle: #5a5a63;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-strong: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.13);
+  --dot-color: rgba(255, 255, 255, 0.075);
+  --nav-bg: rgba(10, 10, 12, 0.72);
+  --lightbox-bg: rgba(10, 10, 12, 0.94);
+  --lightbox-btn-bg: rgba(255, 255, 255, 0.10);
+  --lightbox-btn-bg-hover: rgba(255, 255, 255, 0.20);
+  --lightbox-btn-border: rgba(255, 255, 255, 0.18);
+  --lightbox-btn-color: #fff;
+  --lightbox-image-bg: #000;
+  --lightbox-image-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}

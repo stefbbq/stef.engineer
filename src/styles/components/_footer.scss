@@ -1,0 +1,38 @@
+@use '../abstracts' as *;
+
+.footer {
+  padding: 2.5rem $space-7;
+  border-top: 1px solid var(--border);
+  margin-top: $space-14;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-subtle);
+  letter-spacing: 0.02em;
+  @include glass-chrome;
+  // on short pages, body's flex column lets the footer grow to fill the
+  // remaining viewport height; text stays at the top of the footer via
+  // normal flex-item content flow, background extends to the bottom
+  flex: 1 0 auto;
+}
+
+.footer-meta {
+  margin-top: $space-3;
+  font-size: 0.7rem;
+  color: var(--text-subtle);
+  letter-spacing: 0.05em;
+}
+
+.footer-meta-link {
+  @include reset-button;
+  padding: 0 0 1px;
+  letter-spacing: inherit;
+  color: var(--text-muted);
+  border-bottom: 1px dashed var(--border-strong);
+  transition: color $dur-fast, border-color $dur-fast;
+
+  &:hover {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+    opacity: 1;
+  }
+}

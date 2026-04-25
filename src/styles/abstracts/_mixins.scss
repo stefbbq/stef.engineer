@@ -1,0 +1,53 @@
+// shared declaration blocks. using @mixin instead of `@extend` keeps selector
+// output inline at the call site (no cross-selector joining surprises).
+
+@use 'variables' as *;
+
+// cross-browser backdrop blur. both the vendored and standard properties are
+// emitted because safari still needs -webkit- for backdrop-filter.
+@mixin backdrop-blur($blur: 14px, $saturate: 180%) {
+  backdrop-filter: blur($blur) saturate($saturate);
+  -webkit-backdrop-filter: blur($blur) saturate($saturate);
+}
+
+// surface card base shared by highlight-card, experience-card, art-item.
+// individual components override the transition list where they skip certain
+// animated properties (e.g. experience-card omits the translateY transform).
+@mixin card-surface($padding: $space-7, $radius: $radius-2xl) {
+  position: relative;
+  padding: $padding;
+  border-radius: $radius;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform $dur-card $ease-in-out,
+              border-color $dur-card $ease-in-out,
+              background $dur-card $ease-in-out;
+}
+
+// glass chrome for nav/footer overlays. blur is parameterized because the
+// bottom-nav uses a stronger 20px while the top-nav + footer use 14px.
+@mixin glass-chrome($blur: 14px) {
+  background: var(--nav-bg);
+  @include backdrop-blur($blur, 180%);
+}
+
+// text clipped to the accent gradient, used by the logo and .grad-text.
+@mixin gradient-text {
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+// reset button styles; used by icon-btn, lightbox-btn, footer-meta-link, etc.
+@mixin reset-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}

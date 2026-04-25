@@ -1,0 +1,64 @@
+@use '../abstracts' as *;
+
+// mobile bottom nav — hidden by default, revealed below the mobile breakpoint.
+// body padding is adjusted in the same media query so content never hides
+// behind the fixed bar.
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-nav;
+  @include glass-chrome(20px);
+  border-top: 1px solid var(--border);
+  padding: $space-3 0 calc(#{$space-3} + env(safe-area-inset-bottom, 0));
+
+  nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+  }
+
+  a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--text-muted);
+    font-family: $font-display;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.75rem 0.25rem;
+    transition: color $dur-fast;
+
+    &:hover { color: var(--text); opacity: 1; }
+    &.active { color: var(--text); }
+    &.active::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--accent-grad);
+    }
+  }
+
+  svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.8;
+  }
+}
+
+@include below-mobile {
+  .bottom-nav { display: block; }
+
+  body { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0)); }
+}

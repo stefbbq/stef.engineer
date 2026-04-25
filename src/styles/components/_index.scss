@@ -1,0 +1,16 @@
+// components barrel — one file per component/feature. the order here controls
+// source-order specificity for equally-specific selectors, kept roughly in
+// document order: chrome first, content next, overlays last.
+@forward 'container';
+@forward 'top-nav';
+@forward 'bottom-nav';
+@forward 'footer';
+@forward 'hero';
+@forward 'highlight-card';
+@forward 'experience-card';
+@forward 'tags';
+@forward 'social-links';
+@forward 'markdown';
+@forward 'art-grid';
+@forward 'ers-modal';
+@forward 'lightbox';

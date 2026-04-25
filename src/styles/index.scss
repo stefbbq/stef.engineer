@@ -1,0 +1,6 @@
+// stylesheet entry — layer order matters: abstracts first (no output), then
+// themes (custom properties), then base (element defaults), then components.
+@use 'abstracts';
+@use 'themes';
+@use 'base';
+@use 'components';

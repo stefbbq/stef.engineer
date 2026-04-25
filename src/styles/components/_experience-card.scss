@@ -1,0 +1,62 @@
+@use '../abstracts' as *;
+
+.experience-card {
+  // experience-card reuses the card-surface look but overrides the transition
+  // to skip the translateY animation that highlight-card + art-item use.
+  @include card-surface;
+  margin-bottom: $space-5;
+  transition: border-color $dur-card $ease-in-out, background $dur-card $ease-in-out;
+
+  &:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-strong);
+  }
+
+  .section-text {
+    font-size: 1rem;
+    margin-bottom: $space-5;
+
+    p { margin-bottom: $space-3; }
+    ul {
+      padding-left: $space-6;
+      margin-bottom: $space-3;
+    }
+    li {
+      margin-bottom: 0.35rem;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+  }
+}
+
+.experience-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: $space-3;
+  margin-bottom: 0.25rem;
+
+  h3 {
+    font-size: 1.55rem;
+    margin-bottom: 0;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+}
+
+.experience-org {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.experience-date {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  margin-bottom: $space-5;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}

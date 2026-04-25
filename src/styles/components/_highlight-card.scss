@@ -1,0 +1,50 @@
+@use '../abstracts' as *;
+
+.highlights {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-5;
+
+  @include below-narrow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.highlight-card {
+  @include card-surface;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    background: var(--surface-strong);
+  }
+
+  .icon-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: $radius-lg;
+    background: var(--accent-grad-soft);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    margin-bottom: $space-5;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+    }
+  }
+
+  h3 { margin-bottom: 0.4rem; }
+
+  p {
+    font-size: 0.98rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+
+    strong { color: var(--text); }
+  }
+}

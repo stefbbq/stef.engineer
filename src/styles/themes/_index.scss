@@ -1,0 +1,6 @@
+// themes barrel — emits base dark/light vars then layers palette overrides.
+// order matters: each palette file contains selectors that combine with
+// [data-theme="light"], so the base theme vars must be declared first.
+@forward 'dark';
+@forward 'light';
+@forward 'palettes';

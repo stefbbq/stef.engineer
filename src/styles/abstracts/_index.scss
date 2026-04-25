@@ -1,0 +1,5 @@
+// abstracts barrel — forwards sass variables, mixins, and breakpoint helpers
+// so consumers can `@use '../abstracts' as *` and get the full toolkit.
+@forward 'variables';
+@forward 'breakpoints';
+@forward 'mixins';

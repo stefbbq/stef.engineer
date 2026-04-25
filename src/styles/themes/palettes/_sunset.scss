@@ -1,0 +1,18 @@
+[data-palette='sunset'] {
+  --accent: #ffb627;
+  --accent-2: #ff5e62;
+  --accent-grad: linear-gradient(135deg, #ffb627 0%, #ff5e62 100%);
+  --accent-grad-soft: linear-gradient(135deg, rgba(255, 182, 39, 0.18), rgba(255, 94, 98, 0.18));
+  --glow: rgba(255, 94, 98, 0.20);
+  --halo-1: rgba(255, 182, 39, 0.14);
+  --halo-2: rgba(255, 94, 98, 0.11);
+}
+[data-theme='light'][data-palette='sunset'] {
+  --accent: #d4830a;
+  --accent-2: #d83d40;
+  --accent-grad: linear-gradient(135deg, #d4830a 0%, #d83d40 100%);
+  --accent-grad-soft: linear-gradient(135deg, rgba(212, 131, 10, 0.12), rgba(216, 61, 64, 0.12));
+  --glow: rgba(216, 61, 64, 0.16);
+  --halo-1: rgba(212, 131, 10, 0.09);
+  --halo-2: rgba(216, 61, 64, 0.07);
+}

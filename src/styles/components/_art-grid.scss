@@ -1,0 +1,54 @@
+@use '../abstracts' as *;
+
+// css grid masonry — spans are set by JS from each item's rendered height
+// (which is correct from the start because we set aspect-ratio inline
+// server-side).
+.art-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 8px;
+  grid-auto-flow: row dense;
+  gap: $space-5;
+  align-content: start;
+
+  @include below-tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include below-tiny {
+    grid-template-columns: 1fr;
+  }
+}
+
+.art-item {
+  border-radius: $radius-xl;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: transform $dur-card $ease-in-out, border-color $dur-card $ease-in-out;
+  position: relative;
+  cursor: zoom-in;
+  // aspect-ratio is set inline per item; keeps space reserved before JS spans set
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--surface-strong);
+  }
+}
+
+.art-loading {
+  text-align: center;
+  padding: $space-9 0;
+  color: var(--text-subtle);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
