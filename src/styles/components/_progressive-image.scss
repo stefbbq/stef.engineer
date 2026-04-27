@@ -1,0 +1,65 @@
+// three-stage progressive image loading (paired with the ERS v2
+// `image-progressive` extension in src/extensions/image-progressive).
+//
+// stage 1 — blur: server-rendered HTML sets the `--progressive-lqip` custom
+//   property to a tiny base64 JPEG data URI. the `::before` pseudo paints it
+//   full-bleed with a heavy blur, so the tile is never blank.
+// stage 2 — thumb: the inner `<img>` fetches its small-variant src as usual,
+//   starting with opacity 0 while the blur stays visible behind it.
+// stage 3 — ready: the extension adds `progressive-ready` once the image has
+//   loaded (or errored). the blur fades out, the image fades in.
+
+[data-progressive-image] {
+  position: relative;
+  overflow: hidden;
+  // allow the CSS variable to exist on the element even if SSR omitted it; in
+  // that case the pseudo falls back to transparent and we just skip the blur.
+  --progressive-lqip: none;
+  --progressive-blur: 18px;
+  --progressive-fade-ms: 220ms;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: var(--progressive-lqip);
+    background-size: cover;
+    background-position: center;
+    filter: blur(var(--progressive-blur));
+    // scale the blurred backdrop up slightly so the edges of the blur don't
+    // reveal the clean rectangle underneath.
+    transform: scale(1.1);
+    transition: opacity var(--progressive-fade-ms) ease-out;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  > img {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity var(--progressive-fade-ms) ease-out;
+  }
+
+  &.progressive-ready {
+    &::before {
+      opacity: 0;
+    }
+
+    > img {
+      opacity: 1;
+    }
+  }
+}
+
+// respect users who've opted out of motion — skip fades, show the final image
+// immediately once it's ready.
+@media (prefers-reduced-motion: reduce) {
+  [data-progressive-image] {
+    &::before,
+    > img {
+      transition: none;
+    }
+  }
+}

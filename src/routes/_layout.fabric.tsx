@@ -207,27 +207,42 @@ export const GET = async (content: Response, context: RouteContext): Promise<str
   const request = context.request as Request;
   const url = new URL(request.url);
   const path = url.pathname === "/" ? "/" : url.pathname.replace(/\/$/, "");
+  // SSR best-effort default for the WS endpoint. under `wrangler dev --remote`
+  // request.url resolves to the production hostname, so this would point the
+  // socket at the wrong worker — the override script below re-derives both URLs
+  // from window.location at boot time and that's what actually wins.
+  const wsProtocol = url.protocol === "https:" ? "wss:" : "ws:";
+  const socketBaseURL = `${wsProtocol}//${url.host}`;
 
   const cookie = request.headers.get("cookie");
   const theme = getThemeFromCookie(cookie);
   const palette = getPaletteFromCookie(cookie);
 
   const title = PAGE_TITLES[path] ?? PAGE_TITLES["/"];
-  // force fetch-only transport for every request. the WS path goes through
-  // the framework's long-lived DurableObject ContentCache, which holds rendered
-  // HTML across deploys, so SPA-nav over WS re-injects stale `<style>` blocks
-  // (and other cached head fragments) from old builds. fetch-only re-renders
-  // each nav through the worker's normal handler with no cache surface.
-  // (the previous `isLocalDev` check was wrong under `wrangler dev --remote`
-  // because `request.url` resolves to the production hostname there, so the
-  // hybrid+socket branch took over and the client opened a WS to the deployed
-  // production worker — pulling its old cached HTML on every nav.)
+  // hybrid transport: fetch for first paint, socket for SPA-nav. our custom
+  // WebSocketServer DO (in src/index.tsx) doesn't construct a ContentCache,
+  // so even though SPA-nav goes over the socket every loadContent re-renders
+  // fresh — no stale `<style>` resurfacing across builds/deploys.
   const ersBootstrapHtml = await renderClientToString(ersScript, {
     transport: {
-      type: "fetch",
+      type: "hybrid",
       fetch: { baseURL: "" },
+      socket: { baseURL: socketBaseURL },
     },
   } as any);
+
+  // renderClientToString emits two `<script>` tags: the first sets
+  // window.__EXO_*_BASE_URL__ + __EXO_ERS_CONFIG__, the second is the framework
+  // IIFE that reads them. inject our override between the two so the IIFE picks
+  // up URLs derived from window.location at boot, not whatever the SSR computed
+  // from request.url. this is what makes the socket reach the actual host the
+  // browser opened — important under `wrangler dev --remote` where request.url
+  // is the production hostname even though the user is on localhost.
+  const overrideScript = `<script>(function(){var l=window.location;var s=(l.protocol==='https:'?'wss:':'ws:')+'//'+l.host;window.__EXO_FETCH_BASE_URL__=l.origin;window.__EXO_SOCKET_BASE_URL__=s;var c=window.__EXO_ERS_CONFIG__;if(c&&c.transport){if(c.transport.fetch)c.transport.fetch.baseURL=l.origin;if(c.transport.socket)c.transport.socket.baseURL=s;}})();</script>`;
+  const patchedBootstrap = ersBootstrapHtml.replace(
+    "</script>",
+    "</script>" + overrideScript,
+  );
 
   const tree = (
     <html lang="en" data-theme={theme} data-palette={palette}>
@@ -247,7 +262,7 @@ export const GET = async (content: Response, context: RouteContext): Promise<str
         <script>{raw(themeScript)}</script>
       </head>
       <body>
-        {raw(ersBootstrapHtml)}
+        {raw(patchedBootstrap)}
         {renderTopNav(path)}
         <main id="main" exo-slot={true}>
           {raw(innerHtml)}

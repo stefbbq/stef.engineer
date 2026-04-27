@@ -15,9 +15,10 @@ const DEFAULT_RATIO_W = 4
 const DEFAULT_RATIO_H = 3
 
 /**
- * pick the smallest variant from a srcset so the default thumb src is the low-res
- * version. browsers that honour srcset + sizes will still promote to a larger
- * variant when warranted (retina, wide viewports); the fallback just stays small.
+ * pick the smallest variant from a srcset so the default thumb src is the
+ * low-res version. this is the only src we emit on the grid <img>; srcset and
+ * sizes are deliberately omitted so the browser can't upgrade to the 1920w
+ * file (the lightbox does that upgrade on open from the inline manifest JSON).
  */
 const pickSmallestSrc = (srcset: string, fallback: string): string => {
   const entries = srcset
@@ -34,16 +35,34 @@ const pickSmallestSrc = (srcset: string, fallback: string): string => {
   return smallest.url || fallback
 }
 
+/**
+ * escape a value so it's safe to inline inside an HTML attribute double-quoted
+ * context. base64 data URIs themselves never contain `"`, but we still guard
+ * against it + the common css break-outs to keep this honest if the seed
+ * format ever changes.
+ */
+const escapeAttribute = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+
 const renderArtItems = (items: readonly ArtItem[]): string =>
   items.map(item => {
-    const w = item.width || DEFAULT_RATIO_W
-    const h = item.height || DEFAULT_RATIO_H
+    const width = item.width || DEFAULT_RATIO_W
+    const height = item.height || DEFAULT_RATIO_H
     const dims = item.width && item.height
       ? ` width="${item.width}" height="${item.height}"`
       : ''
     const thumbSrc = pickSmallestSrc(item.srcset, item.src)
-    return `<figure class="art-item" data-id="${item.id}" style="aspect-ratio:${w}/${h}">
-  <img src="${thumbSrc}" srcset="${item.srcset}" sizes="(max-width: 520px) 100vw, (max-width: 900px) 50vw, 33vw" decoding="async"${dims} alt="" />
+    // stage-1 LQIP: emit the base64 placeholder as a CSS custom property in
+    // the inline style so the blurred backdrop paints from the very first
+    // paint, before any javascript has run.
+    const style = item.placeholder
+      ? `aspect-ratio:${width}/${height};--progressive-lqip:url('${escapeAttribute(item.placeholder)}')`
+      : `aspect-ratio:${width}/${height}`
+    return `<figure class="art-item" data-id="${item.id}" data-progressive-image style="${style}">
+  <img src="${thumbSrc}" decoding="async" loading="lazy"${dims} alt="" />
 </figure>`
   }).join('')
 

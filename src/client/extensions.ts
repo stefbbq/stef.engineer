@@ -1,5 +1,6 @@
-import { clientExtension as infiniteScroll } from '@touchlesscode/core-extensions/infinite-scroll'
 import { clientExtension as linkPrefetch } from '@touchlesscode/core-extensions/link-prefetch'
+import { clientExtension as infiniteScroll } from '../extensions/infinite-scroll-v2'
+import { clientExtension as imageProgressive } from '../extensions/image-progressive'
 import { installLightbox, dismissLightbox, onArtPageEntered } from './lightbox'
 import { installArtGrid, ensureArtGrid } from './artGrid'
 
@@ -20,7 +21,13 @@ const LINK_PREFETCH_CONFIG = {
   maxCacheSize: 16,
 }
 
-const INFINITE_SCROLL_NAME = 'infinite-scroll'
+const INFINITE_SCROLL_NAME = 'infinite-scroll-v2'
+const IMAGE_PROGRESSIVE_NAME = 'image-progressive'
+
+const IMAGE_PROGRESSIVE_CONFIG = {
+  selector: '[data-progressive-image]',
+  readyClass: 'progressive-ready',
+}
 
 const normalizePath = (path: string): string =>
   path === '/' ? '/' : path.replace(/\/$/, '')
@@ -35,11 +42,11 @@ const updateActiveNav = () => {
 }
 
 /**
- * the official infinite-scroll extension only inspects the DOM at register
- * time and captures references to the container + its sentinels in onInit.
- * on a SPA-routed site the [data-infinite-scroll] container is replaced
- * each time we navigate back into /art, so the prior registration is now
- * observing detached nodes.
+ * infinite-scroll-v2 (our local extension) inspects the DOM at register time
+ * and captures references to the container + its sentinels in onInit. on a
+ * SPA-routed site the [data-infinite-scroll] container is replaced each time
+ * we navigate back into /art, so the prior registration is now observing
+ * detached nodes.
  *
  * tear down any prior registration before re-registering against the new
  * container — register() is a no-op when the extension name already exists,
@@ -137,6 +144,16 @@ const register = () => {
   }
 
   ensureInfiniteScroll()
+
+  // image-progressive is document-wide and MutationObserver-driven, so it
+  // safely survives SPA navs — register once at boot and leave it be.
+  try {
+    if (!ers.extensions.get?.(IMAGE_PROGRESSIVE_NAME)) {
+      ers.extensions.register(imageProgressive, IMAGE_PROGRESSIVE_CONFIG)
+    }
+  } catch (error) {
+    console.warn('image-progressive register failed', error)
+  }
 
   try {
     ers.extensions.register(linkPrefetch, LINK_PREFETCH_CONFIG)

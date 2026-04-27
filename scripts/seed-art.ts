@@ -13,6 +13,7 @@ import { writeFileSync, mkdirSync, existsSync, statSync, readFileSync } from 'no
 import { writeFile } from 'node:fs/promises'
 import { join, extname } from 'node:path'
 import { imageSize } from 'image-size'
+import sharp from 'sharp'
 
 const FEED_URL = 'https://stefansoc.myportfolio.com/artfeed'
 const ART_DIR = join(process.cwd(), 'public/art')
@@ -25,6 +26,29 @@ type ArtItem = {
   readonly srcset: string
   readonly width?: number
   readonly height?: number
+  readonly placeholder?: string
+}
+
+/** tiny-rez LQIP target: ~24px wide jpeg at low quality, base64 data URI */
+const LQIP_WIDTH = 24
+const LQIP_QUALITY = 30
+
+/**
+ * produce a base64-encoded JPEG data URI suitable for inline use as a blurred
+ * placeholder. kept intentionally small (~600-900 bytes) so 100+ of them can
+ * fit in an inline manifest without noticeable payload cost.
+ */
+const generatePlaceholder = async (sourcePath: string): Promise<string | undefined> => {
+  try {
+    const buffer = await sharp(sourcePath)
+      .resize({ width: LQIP_WIDTH, fit: 'inside', withoutEnlargement: true })
+      .jpeg({ quality: LQIP_QUALITY, mozjpeg: true })
+      .toBuffer()
+    return `data:image/jpeg;base64,${buffer.toString('base64')}`
+  } catch (error) {
+    console.warn(`  placeholder generation failed for ${sourcePath}: ${(error as Error).message}`)
+    return undefined
+  }
 }
 
 type ScrapedItem = ArtItem & {
@@ -196,15 +220,21 @@ const main = async () => {
       }
     }
 
+    // stage-1 LQIP: tiny base64 jpeg painted as a blurred backdrop on the
+    // client until the real thumb decodes. generated from the primary variant
+    // (already on disk above) to avoid a second fetch.
+    const placeholder = existsSync(srcDestPath) ? await generatePlaceholder(srcDestPath) : undefined
+
     finalItems.push({
       id: item.id,
       src: localSrc,
       srcset: localSrcsetParts.join(', '),
       ...(measuredWidth ? { width: measuredWidth } : {}),
       ...(measuredHeight ? { height: measuredHeight } : {}),
+      ...(placeholder ? { placeholder } : {}),
     })
 
-    console.log(`  [${index + 1}/${items.length}] ${item.id.slice(0, 8)} ✓`)
+    console.log(`  [${index + 1}/${items.length}] ${item.id.slice(0, 8)} ✓${placeholder ? ' (lqip)' : ''}`)
   }
 
   writeFileSync(OUT_PATH, JSON.stringify(finalItems, null, 2))

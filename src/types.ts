@@ -47,4 +47,10 @@ export type ArtItem = {
   readonly srcset: string
   readonly width?: number
   readonly height?: number
+  /**
+   * base64-encoded tiny (~24px) JPEG used as an instant LQIP placeholder. when
+   * present, the client `image-progressive` extension paints it as a blurred
+   * backdrop until the real thumb decodes.
+   */
+  readonly placeholder?: string
 }
